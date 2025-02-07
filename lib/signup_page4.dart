@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'signup_page5.dart';
+import 'package:camera/camera.dart'; // Import camera package
 
 class PasswordCreationScreen extends StatefulWidget {
+  final List<CameraDescription> cameras; // Add cameras parameter
+
+  const PasswordCreationScreen({super.key, required this.cameras}); // Constructor
+
   @override
   _PasswordCreationScreenState createState() => _PasswordCreationScreenState();
 }
@@ -72,7 +77,7 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
             const SizedBox(height: 10),
             TextField(
               controller: _passwordController,
-              obscureText: _obscureText,  // Hides text with bullets
+              obscureText: _obscureText, // Hides text with bullets
               cursorColor: Colors.blue,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -90,7 +95,7 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
                   ),
                   onPressed: () {
                     setState(() {
-                      _obscureText = !_obscureText;  // Toggle visibility
+                      _obscureText = !_obscureText; // Toggle visibility
                     });
                   },
                 ),
@@ -118,11 +123,11 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EmailSignupScreen(),
+                          builder: (context) => EmailSignupScreen(cameras: widget.cameras), // Use widget.cameras
                         ),
                       );
                     }
-                  : null,  // Button is disabled if password is invalid
+                  : null, // Button is disabled if password is invalid
               style: ElevatedButton.styleFrom(
                 backgroundColor: _isPasswordValid ? Colors.blue : Colors.grey, // Change color based on validity
                 shape: RoundedRectangleBorder(
@@ -132,7 +137,7 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
               ),
               child: const Text(
                 "Continue",
-                style: TextStyle(fontSize: 16, color: Colors.white),  // Make text white
+                style: TextStyle(fontSize: 16, color: Colors.white), // Make text white
               ),
             ),
           ],

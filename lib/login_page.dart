@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
+import 'camera.dart'; // Import your camera screen
 
 class LoginPage extends StatefulWidget {
+  final List<CameraDescription> cameras;
+
+  const LoginPage({Key? key, required this.cameras}) : super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -18,6 +24,14 @@ class _LoginPageState extends State<LoginPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
     print("Logging in with $email and $password");
+
+    // Navigate to the Camera Screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SnapchatCameraScreen(cameras: widget.cameras),
+      ),
+    );
   }
 
   @override
@@ -149,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Log In',
                 style: TextStyle(
                   fontSize: 18,
-                  color:Colors.white,
+                  color: Colors.white,
                 ),
               ),
             ),

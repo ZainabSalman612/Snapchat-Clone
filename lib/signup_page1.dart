@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'signup_page2.dart'; // Import Step 2 screen
+import 'signup_page2.dart';
+import 'package:camera/camera.dart'; // Import camera package
 
 class SignupPage extends StatefulWidget {
+  final List<CameraDescription> cameras; // Add cameras parameter
+
+  const SignupPage({super.key, required this.cameras});
+
   @override
   _SignupPageState createState() => _SignupPageState();
 }
@@ -23,6 +28,7 @@ class _SignupPageState extends State<SignupPage> {
         builder: (context) => BirthdaySelectionScreen(
           firstName: firstName,
           lastName: lastName,
+          cameras: widget.cameras, // Pass cameras here
         ),
       ),
     );

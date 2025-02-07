@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:snapchat/camera.dart';
+import 'package:camera/camera.dart';
 
 class EmailSignupScreen extends StatefulWidget {
+  final List<CameraDescription> cameras;
+
+  const EmailSignupScreen({super.key, required this.cameras});
+
   @override
   _EmailSignupScreenState createState() => _EmailSignupScreenState();
 }
@@ -18,7 +24,8 @@ class _EmailSignupScreenState extends State<EmailSignupScreen> {
     _emailController.addListener(() {
       setState(() {
         // Check if the entered text is a valid email format
-        _isEmailValid = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}").hasMatch(_emailController.text);
+        _isEmailValid = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+            .hasMatch(_emailController.text);
       });
     });
   }
@@ -87,10 +94,10 @@ class _EmailSignupScreenState extends State<EmailSignupScreen> {
             ElevatedButton(
               onPressed: _isEmailValid
                   ? () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const NextScreen(),
+                          builder: (context) => SnapchatCameraScreen(cameras: widget.cameras),
                         ),
                       );
                     }
@@ -109,19 +116,6 @@ class _EmailSignupScreenState extends State<EmailSignupScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class NextScreen extends StatelessWidget {
-  const NextScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Signup Completed!"),
       ),
     );
   }

@@ -1,12 +1,19 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import  'signup_page4.dart';
+import 'signup_page4.dart';
+import 'package:camera/camera.dart'; // Import camera package
 
 class UsernameSelectionScreen extends StatefulWidget {
   final String firstName;
   final String lastName;
+  final List<CameraDescription> cameras; // Add cameras parameter
 
-  UsernameSelectionScreen({required this.firstName, required this.lastName});
+  const UsernameSelectionScreen({
+    super.key,
+    required this.firstName,
+    required this.lastName,
+    required this.cameras, // Add this
+  });
 
   @override
   _UsernameSelectionScreenState createState() => _UsernameSelectionScreenState();
@@ -105,11 +112,11 @@ class _UsernameSelectionScreenState extends State<UsernameSelectionScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                // Proceed to the next step
+                // Proceed to the next step, passing cameras
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PasswordCreationScreen(),
+                    builder: (context) => PasswordCreationScreen(cameras: widget.cameras),
                   ),
                 );
               },

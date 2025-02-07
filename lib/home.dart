@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'signup_page1.dart';
+import 'package:camera/camera.dart';
 
 class Home extends StatelessWidget {
+  final List<CameraDescription> cameras;
+  
+  const Home({Key? key, required this.cameras}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +32,9 @@ class Home extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(cameras: cameras), // ✅ Pass cameras
+                      ),
                     );
                   },
                   child: Container(
@@ -53,7 +60,9 @@ class Home extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignupPage()),
+                      MaterialPageRoute(
+                        builder: (context) => SignupPage(cameras: cameras), // ✅ Pass cameras
+                      ),
                     );
                   },
                   child: Container(
