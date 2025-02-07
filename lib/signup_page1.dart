@@ -120,11 +120,11 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 15),
               ),
-              child: Text(
+              child: const Text(
                 'Continue',
                 style: TextStyle(
                   fontSize: 18,
-                  color: _isSignupEnabled ? Colors.white : Colors.black,
+                  color: Colors.white,
                 ),
               ),
             ),

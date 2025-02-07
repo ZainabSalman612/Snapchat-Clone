@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Center(
               child: Image.asset(
-                'assets/logo.png',
+                'logo.png',
                 width: 100,
                 height: 100,
               ),
@@ -145,11 +145,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 15),
               ),
-              child: Text(
+              child: const Text(
                 'Log In',
                 style: TextStyle(
                   fontSize: 18,
-                  color: _isLoginEnabled ? Colors.white : Colors.black,
+                  color:Colors.white,
                 ),
               ),
             ),

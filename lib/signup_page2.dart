@@ -74,10 +74,12 @@ class _BirthdaySelectionScreenState extends State<BirthdaySelectionScreen> {
             TextField(
               controller: _birthdayController,
               readOnly: true,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade300),
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
               ),
             ),

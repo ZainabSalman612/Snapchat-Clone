@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import  'signup_page4.dart';
 
 class UsernameSelectionScreen extends StatefulWidget {
   final String firstName;
@@ -104,11 +105,11 @@ class _UsernameSelectionScreenState extends State<UsernameSelectionScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-
+                // Proceed to the next step
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const NextScreen(), 
+                    builder: (context) => PasswordCreationScreen(),
                   ),
                 );
               },
@@ -126,19 +127,6 @@ class _UsernameSelectionScreenState extends State<UsernameSelectionScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class NextScreen extends StatelessWidget {
-  const NextScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Next Screen Placeholder"),
       ),
     );
   }

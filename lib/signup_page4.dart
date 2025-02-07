@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'signup_page5.dart';
 
 class PasswordCreationScreen extends StatefulWidget {
   @override
@@ -7,11 +8,21 @@ class PasswordCreationScreen extends StatefulWidget {
 
 class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
   late TextEditingController _passwordController;
+  bool _obscureText = true;
+  bool _isPasswordValid = false;
 
   @override
   void initState() {
     super.initState();
     _passwordController = TextEditingController();
+
+    // Listen for changes in the password field to check validity
+    _passwordController.addListener(() {
+      setState(() {
+        // Check if the password has at least 8 characters
+        _isPasswordValid = _passwordController.text.length >= 8;
+      });
+    });
   }
 
   @override
@@ -61,32 +72,33 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
             const SizedBox(height: 10),
             TextField(
               controller: _passwordController,
-              obscureText: true,
+              obscureText: _obscureText,  // Hides text with bullets
+              cursorColor: Colors.blue,
               decoration: InputDecoration(
-                hintText: 'Your password',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(
+                labelText: 'Password',
+                labelStyle: const TextStyle(color: Colors.grey),
+                enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
                     color: Colors.grey,
-                    width: 1.0,
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(
-                    color: Colors.blue,
-                    width: 2.0,
-                  ),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 12.0,
-                  horizontal: 15.0,
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;  // Toggle visibility
+                    });
+                  },
                 ),
               ),
             ),
             const SizedBox(height: 10),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Icon(
                   Icons.check_circle,
                   color: Colors.grey,
@@ -101,17 +113,18 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: () {
-                // Proceed to the next step
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NextScreen(), // Replace with actual next screen
-                  ),
-                );
-              },
+              onPressed: _isPasswordValid
+                  ? () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EmailSignupScreen(),
+                        ),
+                      );
+                    }
+                  : null,  // Button is disabled if password is invalid
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
+                backgroundColor: _isPasswordValid ? Colors.blue : Colors.grey, // Change color based on validity
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -119,24 +132,11 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
               ),
               child: const Text(
                 "Continue",
-                style: TextStyle(fontSize: 16, color: Colors.white),
+                style: TextStyle(fontSize: 16, color: Colors.white),  // Make text white
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class NextScreen extends StatelessWidget {
-  const NextScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("Next Screen Placeholder"),
       ),
     );
   }
