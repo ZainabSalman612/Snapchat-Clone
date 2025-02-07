@@ -2,18 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'signup_page3.dart';
-import 'package:camera/camera.dart'; // Import camera package
+import 'package:camera/camera.dart';
 
 class BirthdaySelectionScreen extends StatefulWidget {
   final String firstName;
   final String lastName;
-  final List<CameraDescription> cameras; // Add cameras parameter
+  final List<CameraDescription> cameras;
 
   const BirthdaySelectionScreen({
     super.key,
     required this.firstName,
     required this.lastName,
-    required this.cameras, // Add this
+    required this.cameras,
   });
 
   @override
