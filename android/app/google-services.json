@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "739216038120",
+    "project_id": "snapchat-clone-d9edb",
+    "storage_bucket": "snapchat-clone-d9edb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739216038120:android:1cd9d223f532173969d15d",
+        "android_client_info": {
+          "package_name": "Snapchat_clone.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJJu2UNMttqvDuArdair6sMpIqvn9GXYA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
