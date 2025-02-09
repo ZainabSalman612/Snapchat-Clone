@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart'; // Import Firebase options
 import 'home.dart';
 
 List<CameraDescription> cameras = [];
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Initialize Firebase
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform, // Ensure web config is used
+  );
 
-  // Get available cameras
   cameras = await availableCameras();
-
   runApp(MyApp());
 }
 
@@ -29,7 +28,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Home(cameras: cameras),
+      initialRoute: "/home",
+      routes: {
+        "/home": (context) => Home(cameras: cameras),
+      },
     );
   }
 }

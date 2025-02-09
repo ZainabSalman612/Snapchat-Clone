@@ -21,10 +21,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -74,4 +71,13 @@ class DefaultFirebaseOptions {
     storageBucket: 'snapchat-clone-d9edb.firebasestorage.app',
     measurementId: 'G-PDJYEXVCK8',
   );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyAJJu2UNMttqvDuArdair6sMpIqvn9GXYA',
+    appId: '1:739216038120:android:8b6a09d446a4a23f69d15d',
+    messagingSenderId: '739216038120',
+    projectId: 'snapchat-clone-d9edb',
+    storageBucket: 'snapchat-clone-d9edb.firebasestorage.app',
+  );
+
 }

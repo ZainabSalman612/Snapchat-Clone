@@ -2,10 +2,24 @@ import 'package:flutter/material.dart';
 import 'signup_page5.dart';
 import 'package:camera/camera.dart'; // Import camera package
 
+
 class PasswordCreationScreen extends StatefulWidget {
   final List<CameraDescription> cameras; // Add cameras parameter
+  final String firstName;
+  final String lastName;
+  final String birthday;
+  final String username;
+  final String avatar;
 
-  const PasswordCreationScreen({super.key, required this.cameras}); // Constructor
+  const PasswordCreationScreen({
+    super.key,
+    required this.cameras,
+    required this.firstName,
+    required this.lastName,
+    required this.birthday,
+    required this.username,
+    required this.avatar,
+  });
 
   @override
   _PasswordCreationScreenState createState() => _PasswordCreationScreenState();
@@ -28,6 +42,14 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
         _isPasswordValid = _passwordController.text.length >= 8;
       });
     });
+  }
+
+  Future<void> _createUser() async {
+    try {
+      print("User created: \${userCredential.user?.uid}");
+    } catch (e) {
+      print("Error creating user: \$e");
+    }
   }
 
   @override
@@ -119,11 +141,20 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: _isPasswordValid
-                  ? () {
+                  ? () async {
+                      await _createUser();
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EmailSignupScreen(cameras: widget.cameras), // Use widget.cameras
+                          builder: (context) => EmailSignupScreen(
+                            cameras: widget.cameras,
+                            firstName: widget.firstName,
+                            lastName: widget.lastName,
+                            birthday: widget.birthday,
+                            username:widget.username,
+                            password: _passwordController.text,
+                            avatar: widget.avatar,
+                          ),
                         ),
                       );
                     }

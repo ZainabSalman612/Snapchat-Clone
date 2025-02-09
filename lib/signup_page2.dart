@@ -111,7 +111,8 @@ class _BirthdaySelectionScreenState extends State<BirthdaySelectionScreen> {
                     builder: (context) => UsernameSelectionScreen(
                       firstName: widget.firstName,
                       lastName: widget.lastName,
-                      cameras: widget.cameras, // Pass cameras here
+                      birthday: _birthdayController.text, // ✅ Fix: Pass birthday
+                      cameras: widget.cameras,
                     ),
                   ),
                 );
@@ -125,7 +126,7 @@ class _BirthdaySelectionScreenState extends State<BirthdaySelectionScreen> {
               ),
               child: const Text(
                 'Continue',
-                style: TextStyle(fontSize: 18, color: Colors.white),
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
             const SizedBox(height: 20),

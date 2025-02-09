@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:camera/camera.dart';
 import 'camera.dart'; // Import your camera screen
 
@@ -16,36 +17,54 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isChecked = false;
+  bool _isLoading = false;
+  bool _isFormValid = false; // Controls button color
 
-  bool get _isLoginEnabled =>
-      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
-
-  void _login() {
-    String email = _emailController.text;
-    String password = _passwordController.text;
-    print("Logging in with $email and $password");
-
-    // Navigate to the Camera Screen
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SnapchatCameraScreen(cameras: widget.cameras),
-      ),
-    );
-  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(() => setState(() {}));
-    _passwordController.addListener(() => setState(() {}));
+    _emailController.addListener(_validateForm);
+    _passwordController.addListener(_validateForm);
   }
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  void _validateForm() {
+    setState(() {
+      _isFormValid = _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+    });
+  }
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      print("Login successful: ${_auth.currentUser?.email}");
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SnapchatCameraScreen(cameras: widget.cameras),
+        ),
+      );
+    } catch (e) {
+      print("Login failed: $e");
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login failed: ${e.toString()}")),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -78,7 +97,6 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 'Log In',
                 style: TextStyle(
-                  fontFamily: 'HelveticaNeue',
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -89,8 +107,9 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: _emailController,
               cursorColor: Colors.blue,
+              keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
-                labelText: 'Username, Email or Phone',
+                labelText: 'Email',
                 labelStyle: TextStyle(color: Colors.grey),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey),
@@ -149,24 +168,25 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _isLoginEnabled ? _login : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    _isLoginEnabled ? Colors.blue : Colors.grey[300],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 15),
-              ),
-              child: const Text(
-                'Log In',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            _isLoading
+                ? const Center(child: CircularProgressIndicator()) // Show loader while logging in
+                : ElevatedButton(
+                    onPressed: _isFormValid ? _login : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _isFormValid ? Colors.blue : Colors.grey[300],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    child: const Text(
+                      'Log In',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

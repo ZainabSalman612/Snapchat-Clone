@@ -78,7 +78,7 @@ class _SnapchatCameraScreenState extends State<SnapchatCameraScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()), // Navigate to Profile
+                  MaterialPageRoute(builder: (context) => ProfileScreen(cameras: widget.cameras)), // Navigate to Profile
                 );
               },
             ),

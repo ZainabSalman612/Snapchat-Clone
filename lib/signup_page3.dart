@@ -1,18 +1,20 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'signup_page4.dart';
-import 'package:camera/camera.dart'; // Import camera package
+import 'avatar.dart';
+import 'package:camera/camera.dart';
 
 class UsernameSelectionScreen extends StatefulWidget {
   final String firstName;
   final String lastName;
-  final List<CameraDescription> cameras; // Add cameras parameter
+  final String birthday; // 
+  final List<CameraDescription> cameras;
 
   const UsernameSelectionScreen({
     super.key,
     required this.firstName,
     required this.lastName,
-    required this.cameras, // Add this
+    required this.birthday, //
+    required this.cameras,
   });
 
   @override
@@ -30,7 +32,7 @@ class _UsernameSelectionScreenState extends State<UsernameSelectionScreen> {
 
   String _generateUsername() {
     Random random = Random();
-    int randomNumber = random.nextInt(90000) + 10000; // Generates a number between 10000-99999
+    int randomNumber = random.nextInt(90000) + 10000;
     return "${widget.firstName.toLowerCase()}_${widget.lastName.toLowerCase()}$randomNumber";
   }
 
@@ -112,11 +114,16 @@ class _UsernameSelectionScreenState extends State<UsernameSelectionScreen> {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                // Proceed to the next step, passing cameras
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PasswordCreationScreen(cameras: widget.cameras),
+                    builder: (context) => AvatarSelectionScreen(
+                      firstName: widget.firstName,
+                      lastName: widget.lastName,
+                      birthday: widget.birthday,
+                      username: _usernameController.text,
+                      cameras: widget.cameras,
+                    ),
                   ),
                 );
               },

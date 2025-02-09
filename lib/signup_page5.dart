@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:snapchat/camera.dart';
 import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EmailSignupScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
+  final String firstName;
+  final String lastName;
+  final String birthday;
+  final String username;
+  final String password;
+  final String avatar;
 
-  const EmailSignupScreen({super.key, required this.cameras});
+  const EmailSignupScreen({
+    super.key,
+    required this.cameras,
+    required this.firstName,
+    required this.lastName,
+    required this.birthday,
+    required this.username,
+    required this.password,
+    required this.avatar,
+  });
 
   @override
   _EmailSignupScreenState createState() => _EmailSignupScreenState();
@@ -14,20 +31,92 @@ class EmailSignupScreen extends StatefulWidget {
 class _EmailSignupScreenState extends State<EmailSignupScreen> {
   late TextEditingController _emailController;
   bool _isEmailValid = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController();
 
-    // Listen for changes in the email field to check validity
+    // Validate email on change
     _emailController.addListener(() {
       setState(() {
-        // Check if the entered text is a valid email format
-        _isEmailValid = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+        _isEmailValid = RegExp(
+                r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
             .hasMatch(_emailController.text);
       });
     });
+  }
+
+  Future<void> registerUser() async {
+    if (!_isEmailValid) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    print("➡️ Starting user registration...");
+
+    try {
+      // Step 1: Create user in Firebase Authentication
+      print("🔵 Creating user in Firebase Authentication...");
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: widget.password,
+      );
+
+      print("✅ User created: ${userCredential.user!.uid}");
+
+      // Step 2: Save user details in Firestore
+      print("🟢 Saving user data in Firestore...");
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
+        'firstName': widget.firstName,
+        'lastName': widget.lastName,
+        'birthday': widget.birthday,
+        'username': widget.username,
+        'email': _emailController.text.trim(),
+        'avatar': widget.avatar, // ✅ Save avatar
+      });
+
+      print("✅ User data saved in Firestore");
+
+      // Step 3: Navigate to Camera Screen
+      print("🎥 Navigating to SnapchatCameraScreen...");
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SnapchatCameraScreen(cameras: widget.cameras),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      print("❌ FirebaseAuthException: ${e.code} - ${e.message}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Auth Error: ${e.message}")),
+      );
+    } on FirebaseException catch (e) {
+      print("❌ Firestore Error: ${e.code} - ${e.message}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Firestore Error: ${e.message}")),
+      );
+    } catch (e) {
+      print("❌ Unexpected Error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Unexpected Error: ${e.toString()}")),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        print("🔄 Finished execution, loading state reset.");
+      }
+    }
   }
 
   @override
@@ -92,16 +181,9 @@ class _EmailSignupScreenState extends State<EmailSignupScreen> {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: _isEmailValid
-                  ? () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SnapchatCameraScreen(cameras: widget.cameras),
-                        ),
-                      );
-                    }
-                  : null, // Disable button if email is invalid
+              onPressed: _isEmailValid && !_isLoading
+                  ? registerUser
+                  : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: _isEmailValid ? Colors.blue : Colors.grey,
                 shape: RoundedRectangleBorder(
@@ -109,10 +191,12 @@ class _EmailSignupScreenState extends State<EmailSignupScreen> {
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 15),
               ),
-              child: const Text(
-                "Finish",
-                style: TextStyle(fontSize: 16, color: Colors.white),
-              ),
+              child: _isLoading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : const Text(
+                      "Finish",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
             ),
           ],
         ),
