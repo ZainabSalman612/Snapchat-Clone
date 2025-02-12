@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GalleryScreen extends StatelessWidget {
-  final List<String> imagePaths; // List of images from backend
+  final List<String> imagePaths; 
 
   const GalleryScreen({Key? key, required this.imagePaths}) : super(key: key);
 
@@ -67,14 +67,14 @@ class GalleryScreen extends StatelessWidget {
             child: GridView.builder(
               padding: const EdgeInsets.all(4),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // 3 columns like Snapchat
+                crossAxisCount: 3, 
                 crossAxisSpacing: 4,
                 mainAxisSpacing: 4,
               ),
-              itemCount: imagePaths.length, // Dynamic image count
+              itemCount: imagePaths.length, 
               itemBuilder: (context, index) {
                 return Container(
-                  color: Colors.grey, // Set the background color to grey
+                  color: Colors.grey, 
                   child: _buildGalleryItem(imagePaths[index]),
                 );
               },

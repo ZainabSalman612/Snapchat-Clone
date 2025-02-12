@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'gallery.dart';
 import 'profile.dart';
+import 'utils/colors.dart';
 
 class SnapchatCameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -74,11 +75,11 @@ class _SnapchatCameraScreenState extends State<SnapchatCameraScreen> {
             top: 40,
             left: 20,
             child: IconButton(
-              icon: const Icon(Icons.account_circle, color: Colors.yellow, size: 40),
+              icon: const Icon(Icons.account_circle, color: themeColor, size: 40),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen(cameras: widget.cameras)), // Navigate to Profile
+                  MaterialPageRoute(builder: (context) => ProfileScreen(cameras: widget.cameras)),
                 );
               },
             ),

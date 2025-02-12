@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'signup_page2.dart';
-import 'package:camera/camera.dart'; // Import camera package
+import 'package:camera/camera.dart';
 
 class SignupPage extends StatefulWidget {
-  final List<CameraDescription> cameras; // Add cameras parameter
+  final List<CameraDescription> cameras; 
 
   const SignupPage({super.key, required this.cameras});
 

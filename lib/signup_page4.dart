@@ -35,10 +35,9 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
     super.initState();
     _passwordController = TextEditingController();
 
-    // Listen for changes in the password field to check validity
     _passwordController.addListener(() {
       setState(() {
-        // Check if the password has at least 8 characters
+
         _isPasswordValid = _passwordController.text.length >= 8;
       });
     });
@@ -99,7 +98,7 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
             const SizedBox(height: 10),
             TextField(
               controller: _passwordController,
-              obscureText: _obscureText, // Hides text with bullets
+              obscureText: _obscureText,
               cursorColor: Colors.blue,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -117,7 +116,7 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
                   ),
                   onPressed: () {
                     setState(() {
-                      _obscureText = !_obscureText; // Toggle visibility
+                      _obscureText = !_obscureText; 
                     });
                   },
                 ),
@@ -158,9 +157,9 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
                         ),
                       );
                     }
-                  : null, // Button is disabled if password is invalid
+                  : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: _isPasswordValid ? Colors.blue : Colors.grey, // Change color based on validity
+                backgroundColor: _isPasswordValid ? Colors.blue : Colors.grey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -168,7 +167,7 @@ class _PasswordCreationScreenState extends State<PasswordCreationScreen> {
               ),
               child: const Text(
                 "Continue",
-                style: TextStyle(fontSize: 16, color: Colors.white), // Make text white
+                style: TextStyle(fontSize: 16, color: Colors.white), 
               ),
             ),
           ],

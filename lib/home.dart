@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'signup_page1.dart';
 import 'package:camera/camera.dart';
+import 'utils/colors.dart';
 
 class Home extends StatelessWidget {
   final List<CameraDescription> cameras;
@@ -11,7 +12,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow,
+      backgroundColor: themeColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -33,12 +34,12 @@ class Home extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginPage(cameras: cameras), // ✅ Pass cameras
+                        builder: (context) => LoginPage(cameras: cameras),
                       ),
                     );
                   },
                   child: Container(
-                    color: Colors.redAccent,
+                    color: accentColorRed,
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: const Center(
@@ -61,12 +62,12 @@ class Home extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SignupPage(cameras: cameras), // ✅ Pass cameras
+                        builder: (context) => SignupPage(cameras: cameras)
                       ),
                     );
                   },
                   child: Container(
-                    color: Colors.blue,
+                    color: accentColorBlue,
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: const Center(

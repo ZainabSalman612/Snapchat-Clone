@@ -33,7 +33,7 @@ class _AvatarSelectionScreenState extends State<AvatarSelectionScreen> {
 
   void _continue() {
     if (selectedAvatar.isNotEmpty) {
-      // ✅ Pass avatar to signup_page4.dart (not Firestore yet)
+      
       Navigator.push(
         context,
         MaterialPageRoute(

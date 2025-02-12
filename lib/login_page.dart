@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:camera/camera.dart';
-import 'camera.dart'; // Import your camera screen
+import 'camera.dart';
 
 class LoginPage extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
   bool _isChecked = false;
   bool _isLoading = false;
-  bool _isFormValid = false; // Controls button color
+  bool _isFormValid = false; 
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 20),
             _isLoading
-                ? const Center(child: CircularProgressIndicator()) // Show loader while logging in
+                ? const Center(child: CircularProgressIndicator()) 
                 : ElevatedButton(
                     onPressed: _isFormValid ? _login : null,
                     style: ElevatedButton.styleFrom(

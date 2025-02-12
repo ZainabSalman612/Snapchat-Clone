@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart'; // Required for DateFormat
+import 'package:intl/intl.dart'; 
 import 'home.dart';
 import 'package:camera/camera.dart';
+import 'utils/colors.dart';
 
 class ProfileScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -23,8 +24,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String username = "";
   String birthday = "";
   String zodiacSign = "";
-  String avatar = ""; // Ensure avatar is always a string
-  int snapScore = 185634; // Default or random value (change if needed)
+  String avatar = ""; 
+  int snapScore = 185634;
   bool isLoading = true;
 
   @override
@@ -40,30 +41,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
       try {
         DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
         if (userDoc.exists) {
-          print("User profile found: ${userDoc.data()}"); // Debug log
+          print("User profile found: ${userDoc.data()}");
           setState(() {
             firstName = userDoc['firstName'] ?? "";
             lastName = userDoc['lastName'] ?? "";
             username = userDoc['username'] ?? "";
             birthday = userDoc['birthday'] ?? "";
-            avatar = userDoc['avatar'] ?? ""; // Ensure avatar is fetched
+            avatar = userDoc['avatar'] ?? ""; 
             zodiacSign = _calculateZodiac(birthday);
             isLoading = false;
             
-            // Format the birthday to "D MMM" (e.g., "9 Feb")
+        
             if (birthday.isNotEmpty) {
               DateTime date = DateTime.parse(birthday);
-              birthday = DateFormat('d MMM').format(date); // Update birthday format here
+              birthday = DateFormat('d MMM').format(date); 
             }
           });
         } else {
-          print("User document does not exist"); // Debug log
+          print("User document does not exist");
         }
       } catch (e) {
-        print("Error fetching user profile: $e"); // Error log
+        print("Error fetching user profile: $e");
       }
     } else {
-      print("No user is logged in"); // Debug log
+      print("No user is logged in");
     }
   }
 
@@ -145,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.yellow
+                                backgroundColor: themeColor
                               ),
                               onPressed: () {},
                               child: const Text("My Account", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
@@ -153,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             const SizedBox(width: 8),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:Colors.yellow),
+                                backgroundColor:themeColor),
                               onPressed: () {},
                               child: const Text("Public Profile", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                             ),

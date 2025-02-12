@@ -111,7 +111,7 @@ class _BirthdaySelectionScreenState extends State<BirthdaySelectionScreen> {
                     builder: (context) => UsernameSelectionScreen(
                       firstName: widget.firstName,
                       lastName: widget.lastName,
-                      birthday: _birthdayController.text, // ✅ Fix: Pass birthday
+                      birthday: _birthdayController.text,
                       cameras: widget.cameras,
                     ),
                   ),
